@@ -1,10 +1,13 @@
 package meteo.gui;
 
+import java.net.Authenticator;
+import java.net.PasswordAuthentication;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import meteo.http.Proxy;
 
 /**
  *
@@ -13,13 +16,13 @@ import javafx.stage.Stage;
 public class AbdulWeatherFinder extends Application {
     
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception {  
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
 
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
-        stage.show();
+        stage.show();  
     }
 
     /**

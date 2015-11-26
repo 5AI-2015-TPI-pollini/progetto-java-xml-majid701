@@ -8,9 +8,8 @@ package meteo.http;
 public interface Connectable {
     /**
      * Applies proxy settings to the program
-     * @return True / False - Proxy applied status
      */
-    public boolean applyProxy();
+    public void applyProxy();
     /**
      * Sends a simple request to a link verifying connectivity
      * @return True / False - Connection status

@@ -6,6 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import meteo.http.Proxy;
 
 /**
  *
@@ -13,7 +14,7 @@ import javafx.scene.control.Label;
  */
 public class FXMLDocumentController implements Initializable {
     
-    
+   
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
