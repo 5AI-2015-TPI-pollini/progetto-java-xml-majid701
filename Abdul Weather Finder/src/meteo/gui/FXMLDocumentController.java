@@ -1,4 +1,4 @@
-package abdul.weather.finder;
+package meteo.gui;
 
 import java.net.URL;
 import java.util.ResourceBundle;
