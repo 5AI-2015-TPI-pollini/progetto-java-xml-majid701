@@ -12,7 +12,6 @@ public interface Connectable {
     public void applyProxy();
     /**
      * Sends a simple request to a link verifying connectivity
-     * @return True / False - Connection status
      */
-    public boolean testConnection();
+    public void testConnection();
 }
