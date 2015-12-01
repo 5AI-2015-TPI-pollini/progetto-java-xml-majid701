@@ -1,10 +1,8 @@
 package meteo.http;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Authenticator;
-import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.PasswordAuthentication;
 import java.net.URL;
 
@@ -14,7 +12,7 @@ import java.net.URL;
  *
  * @author Abdul Majid <majid70111@gmail.com>
  */
-public class Proxy implements Connectable {
+public class Proxy extends MyUrlConnection implements Connectable {
 
     /**
      * IP address of the proxy server
@@ -52,7 +50,6 @@ public class Proxy implements Connectable {
         System.setProperty("proxySet", "true");
         System.setProperty("http.proxyHost", host);
         System.setProperty("http.proxyPort", "8080");
-        System.out.println("Im here1");
         Authenticator.setDefault(new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -62,44 +59,18 @@ public class Proxy implements Connectable {
     }
 
     @Override
-    public void testConnection() {
-        new Thread(new Runnable() {
-            @Override
-            public void run(){
-                try {
-                    String USER_AGENT = "Mozilla/5.0";
-                    String url = "http://www.google.com/";
-                    
-                    URL obj = new URL(url);
-                    HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-                    
-                    System.out.println("Connection done");
-                    // optional default is GET
-                    con.setRequestMethod("GET");
-
-                    //add request header
-                    con.setRequestProperty("User-Agent", USER_AGENT);
-
-                    int responseCode = con.getResponseCode();
-                    System.out.println("\nSending 'GET' request to URL : " + url);
-                    System.out.println("Response Code : " + responseCode);
-
-                    BufferedReader in = new BufferedReader(
-                            new InputStreamReader(con.getInputStream()));
-                    String inputLine;
-                    StringBuffer response = new StringBuffer();
-
-                    while ((inputLine = in.readLine()) != null) {
-                        response.append(inputLine);
-                    }
-                    in.close();
-
-                    //print result
-                    System.out.println(response.toString());
-                } catch (IOException ex) {
-                    System.out.println("Error in connection");
-                }
-            }
-        }).run();
+    public boolean testConnection() throws IOException {
+        try {
+            URL url = new URL("http://www.google.it/");
+            MyUrlConnection con = new MyUrlConnection();
+            con.executeConnection(url);
+            int responseCode = con.getResponseCode();
+            if (responseCode == 200)
+                return true;
+            return false;
+        } catch (MalformedURLException ex) {
+            System.out.println("Url not formed correctly");
+        }
+        return false;
     }
 }
