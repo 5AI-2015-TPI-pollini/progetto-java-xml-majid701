@@ -9,7 +9,7 @@ public class Address {
     private Coordinate coordinate;
     
     public Address(String address, Coordinate c){
-        address = formattedAddress;
+        formattedAddress = address;
         coordinate = c;
     }
     /**
