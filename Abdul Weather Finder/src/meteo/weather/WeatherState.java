@@ -1,5 +1,7 @@
 package meteo.weather;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Abdul Majid <majid70111@hotmail.com>
@@ -19,6 +21,8 @@ public class WeatherState {
     private String Uv;
     private String RainToday;
     private String icon;
+    
+    private Forecast[] forecast;
     
     public WeatherState(){}
 
@@ -77,6 +81,16 @@ public class WeatherState {
     public void setIcon(String icon) {
         this.icon = icon;
     }
+
+    public void setForecast(Forecast[] forecast) {
+        this.forecast = forecast;
+    }
+
+    @Override
+    public String toString() {
+        return "WeatherState{" + "ObservationTime=" + ObservationTime + ", TemperatureC=" + TemperatureC + ", WeatherHuman=" + WeatherHuman + ", Humidity=" + Humidity + ", Feels=" + Feels + ", WindKph=" + WindKph + ", WindDir=" + WindDir + ", WindMaxKph=" + WindMaxKph + ", WindChill=" + WindChill + ", PressurePa=" + PressurePa + ", VisibilityKm=" + VisibilityKm + ", Uv=" + Uv + ", RainToday=" + RainToday + ", icon=" + icon + "\n" + ", forecast=" + Arrays.toString(forecast) + '}';
+    }
+
     
     
 }
