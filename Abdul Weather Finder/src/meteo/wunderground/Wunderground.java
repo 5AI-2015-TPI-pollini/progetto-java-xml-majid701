@@ -11,6 +11,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 import meteo.http.XMLDownloader;
+import meteo.weather.Forecast;
 import meteo.weather.WeatherState;
 import org.w3c.dom.Document;
 
@@ -19,6 +20,8 @@ import org.w3c.dom.Document;
  * @author Abdul Majid <majid70111@gmail.com>
  */
 public class Wunderground {
+    private static final int SHORT_FORECAST = 4;
+    private static final int FORECAST_DATA = 8;
     /**
      * XPath queries to retrieve data from the XML of CURRENT WEATHER
      */
@@ -48,14 +51,40 @@ public class Wunderground {
     
     //ICON URL (needs icon name + .gif)
     private static final String ICON_URL = "http://icons.wxug.com/i/c/k/";
-    
+    /**
+     * XPath queries to retrieve forecast from the XML of the given place
+     */
+    private static final String QUERY_FORECAST = "/response/forecast/simpleforecast/forecastdays/forecastday";
+    //Add to the above string including index in the middle ["+i+"]
+    private static final String FORECAST_DAY_NAME = "/date/weekday";
+    private static final String FORECAST_DAY_NUM = "/date/day";
+    private static final String FORECAST_MONTH_NUM = "/date/month";
+    private static final String FORECAST_MAXTEMP_C = "/high/celsius";
+    private static final String FORECAST_MINTEMP_C = "/low/celsius";
+    private static final String FORECAST_HUMAN = "/conditions";
+    private static final String FORECAST_ICON = "/icon";
+    private static final String FORECAST_RAIN = "/qpf_allday/mm";
     
     /**
      * XPath factory reference
      */
     private static final XPathFactory xpathFactory = XPathFactory.newInstance();
+    /**
+     * Weather state object containing current weather + forecast
+     */
+    private WeatherState weatherState;
     
     public Wunderground() {}
+    /**
+     * 
+     * @param url - URL to download the weather XML from
+     * @return Weather state object containing current weather + forecast
+     * @throws IOException - In case of connection error 
+     */
+    public WeatherState getWeather(URL url) throws IOException{
+        download(url);
+        return weatherState;
+    }
     
     private void download(URL url) throws IOException{
         //Downloade the xml file
@@ -73,10 +102,13 @@ public class Wunderground {
         ArrayList<XPathExpression> queries = prepareQueries(xpath);
         //weather information holder object
         WeatherState weather = new WeatherState();
+        //Forecast information holder object
+        Forecast [] forecast = new Forecast[SHORT_FORECAST];
         int count = 0;
-        for(XPathExpression i : queries){
+        boolean endLoop = false;
+        for(int i = 0; i < queries.size(); i++){
             try {
-                String temp = (String) i.evaluate(doc, XPathConstants.STRING);
+                String temp = (String) queries.get(i).evaluate(doc, XPathConstants.STRING);
                 switch(count){
                     case 0:
                         weather.setObservationTime(temp);
@@ -134,21 +166,75 @@ public class Wunderground {
                         weather.setIcon(temp);
                         count++;
                         break;
+                    case 14:
+                        forecast = prepareForecast(i, queries, forecast, doc);
+                        endLoop = true;
+                        count++;
+                        break;
+                }
+                if (endLoop){
+                    break;
                 }
             } catch (XPathExpressionException ex) {
                 Logger.getLogger(Wunderground.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        weather.setForecast(forecast);
+        weatherState = weather;
     }
     
-    public void find(URL url) throws IOException{
-        download(url);
+    private Forecast[] prepareForecast(int start, ArrayList<XPathExpression> queries, Forecast[] forecast, Document doc) throws XPathExpressionException {
+        Forecast temp;
+        for (int i = 0; i < SHORT_FORECAST; i++){
+            temp = new Forecast();
+            int count = 0;
+            for (int j = start; j < (start + FORECAST_DATA); j++){
+                String asp = (String) queries.get(j).evaluate(doc, XPathConstants.STRING);
+                switch(count){
+                    case 0:
+                        temp.setWeekDay(asp);
+                        count++;
+                        break;
+                    case 1:
+                        temp.setDayNum(asp);
+                        count++;
+                        break;
+                    case 2:
+                        temp.setMonthNum(asp);
+                        count++;
+                        break;
+                    case 3:
+                        temp.setMaxTempC(asp);
+                        count++;
+                        break;
+                    case 4:
+                        temp.setMinTempC(asp);
+                        count++;
+                        break;
+                    case 5:
+                        temp.setHuman(asp);
+                        count++;
+                        break;
+                    case 6:
+                        temp.setIconName(asp);
+                        count++;
+                        break;
+                    case 7:
+                        temp.setDayRain(asp);
+                        count++;
+                        break;
+                }
+            }
+            start += FORECAST_DATA;
+            forecast[i] = temp;
+        }
+        return forecast;
     }
-    
+     
     private ArrayList<XPathExpression> prepareQueries(XPath xpath){
         ArrayList<XPathExpression> queries = new ArrayList();
         try {
-            //prepare queries
+            //prepare queries CURRENT WEATHER
             XPathExpression qryObservationTime = xpath.compile(QUERY_OBSERVATION_TIME);
             XPathExpression qryTempC = xpath.compile(QUERY_TEMP_C);
             XPathExpression qryWeatherHuman = xpath.compile(QUERY_WEATHER_HUMAN);
@@ -163,7 +249,6 @@ public class Wunderground {
             XPathExpression qryUv = xpath.compile(QUERY_UV);
             XPathExpression qryRainToday = xpath.compile(QUERY_RAIN_TODAY_MM);
             XPathExpression qryIcon = xpath.compile(QUERY_ICON_NAME);
-            
             //add them to a list 
             queries.add(qryObservationTime);
             queries.add(qryTempC);
@@ -179,6 +264,29 @@ public class Wunderground {
             queries.add(qryUv);
             queries.add(qryRainToday);
             queries.add(qryIcon);
+            
+            // prepare queries FORECAST
+            for(int i = 1; i < 5; i++){
+                //compile FORECAST queries
+                XPathExpression qryForecastDayName = xpath.compile(QUERY_FORECAST + "["+i+"]" + FORECAST_DAY_NAME);
+                XPathExpression qryForecastDayNum = xpath.compile(QUERY_FORECAST + "["+i+"]" + FORECAST_DAY_NUM);
+                XPathExpression qryForecastMonthNum = xpath.compile(QUERY_FORECAST + "["+i+"]" + FORECAST_MONTH_NUM);
+                XPathExpression qryForecastMaxTempC = xpath.compile(QUERY_FORECAST + "["+i+"]" + FORECAST_MAXTEMP_C);
+                XPathExpression qryForecastMinTempC = xpath.compile(QUERY_FORECAST + "["+i+"]" + FORECAST_MINTEMP_C);
+                XPathExpression qryForecastHuman = xpath.compile(QUERY_FORECAST + "["+i+"]" + FORECAST_HUMAN);
+                XPathExpression qryForecastIcon = xpath.compile(QUERY_FORECAST + "["+i+"]" + FORECAST_ICON);
+                XPathExpression qryForecastRain = xpath.compile(QUERY_FORECAST + "["+i+"]" + FORECAST_RAIN);
+                //add them to the list
+                queries.add(qryForecastDayName);
+                queries.add(qryForecastDayNum);
+                queries.add(qryForecastMonthNum);
+                queries.add(qryForecastMaxTempC);
+                queries.add(qryForecastMinTempC);
+                queries.add(qryForecastHuman);
+                queries.add(qryForecastIcon);
+                queries.add(qryForecastRain);
+            }
+            
         } catch (XPathExpressionException ex) {
             System.out.println("Error in queries");
         }
