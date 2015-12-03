@@ -8,7 +8,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
- *
+ * Generic XML downloader and parser class
  * @author Abdul Majid <majid70111@gmail.com>
  */
 public class XMLDownloader extends MyUrlConnection{

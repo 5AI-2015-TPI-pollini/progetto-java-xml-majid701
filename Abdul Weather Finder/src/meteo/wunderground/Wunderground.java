@@ -10,13 +10,15 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
+import meteo.http.IconDownloader;
 import meteo.http.XMLDownloader;
 import meteo.weather.Forecast;
 import meteo.weather.WeatherState;
 import org.w3c.dom.Document;
 
 /**
- *
+ * Connects to the wunderground api service downloading weather information in XML
+ * and parsing it
  * @author Abdul Majid <majid70111@gmail.com>
  */
 public class Wunderground {
@@ -96,7 +98,7 @@ public class Wunderground {
         executeQueries(doc);
     }
     
-    private void executeQueries(Document doc){
+    private void executeQueries(Document doc) throws IOException{
         //xpath object
         XPath xpath = xpathFactory.newXPath();
         ArrayList<XPathExpression> queries = prepareQueries(xpath);
@@ -179,6 +181,9 @@ public class Wunderground {
                 Logger.getLogger(Wunderground.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        IconDownloader icn = new IconDownloader();
+        String iconUrl = (ICON_URL + weather.getIcon() + ".gif");
+        weather.setIconImage(icn.download(iconUrl));
         weather.setForecast(forecast);
         weatherState = weather;
     }

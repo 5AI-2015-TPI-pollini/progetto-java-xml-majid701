@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 /**
- *
+ * Generic http get URL connection class
  * @author Abdul Majid <majid70111@gmail.com>
  */
 public class MyUrlConnection {

@@ -1,7 +1,7 @@
 package meteo.weather;
 
 /**
- *
+ * Holds forecast information of a WeatherState object
  * @author Abdul Majid <majid70111@gmail.com>
  */
 public class Forecast {

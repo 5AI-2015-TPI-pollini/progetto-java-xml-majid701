@@ -1,7 +1,7 @@
 package meteo.googlemaps;
 
 /**
- *
+ * Holds the coordinates of a location
  * @author Abdul Majid <majid70111@gmail.com>
  */
 public class Coordinate {
@@ -25,5 +25,10 @@ public class Coordinate {
 
     public double getLongitude() {
         return longitude;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinate{" + "latitude=" + latitude + ", longitude=" + longitude + '}';
     }
 }

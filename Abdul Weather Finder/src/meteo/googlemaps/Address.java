@@ -1,7 +1,7 @@
 package meteo.googlemaps;
 
 /**
- *
+ * Address holder class
  * @author Abdul Majid <majid70111@gmail.com>
  */
 public class Address {
@@ -34,4 +34,11 @@ public class Address {
     public double getLongitude(){
         return coordinate.getLongitude();
     }
+
+    @Override
+    public String toString() {
+        return "Address{" + "formattedAddress=" + formattedAddress + ", coordinate=" + coordinate + '}';
+    }
+    
+    
 }

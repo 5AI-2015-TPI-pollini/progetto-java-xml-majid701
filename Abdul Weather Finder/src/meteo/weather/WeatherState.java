@@ -1,9 +1,10 @@
 package meteo.weather;
 
 import java.util.Arrays;
+import javafx.scene.image.Image;
 
 /**
- *
+ * Holds Weather information of a certain location 
  * @author Abdul Majid <majid70111@hotmail.com>
  */
 public class WeatherState {
@@ -21,6 +22,8 @@ public class WeatherState {
     private String Uv;
     private String RainToday;
     private String icon;
+    
+    private Image iconImage;
     
     private Forecast[] forecast;
     
@@ -86,11 +89,73 @@ public class WeatherState {
         this.forecast = forecast;
     }
 
+    public String getObservationTime() {
+        return ObservationTime;
+    }
+
+    public String getTemperatureC() {
+        return TemperatureC;
+    }
+
+    public String getWeatherHuman() {
+        return WeatherHuman;
+    }
+
+    public String getHumidity() {
+        return Humidity;
+    }
+
+    public String getFeels() {
+        return Feels;
+    }
+
+    public String getWindKph() {
+        return WindKph;
+    }
+
+    public String getWindDir() {
+        return WindDir;
+    }
+
+    public String getWindMaxKph() {
+        return WindMaxKph;
+    }
+
+    public String getWindChill() {
+        return WindChill;
+    }
+
+    public String getPressurePa() {
+        return PressurePa;
+    }
+
+    public String getVisibilityKm() {
+        return VisibilityKm;
+    }
+
+    public String getUv() {
+        return Uv;
+    }
+
+    public String getRainToday() {
+        return RainToday;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIconImage(Image iconImage) {
+        this.iconImage = iconImage;
+    }
+
+    public Image getIconImage() {
+        return iconImage;
+    }
+    
+    
     @Override
     public String toString() {
         return "WeatherState{" + "ObservationTime=" + ObservationTime + ", TemperatureC=" + TemperatureC + ", WeatherHuman=" + WeatherHuman + ", Humidity=" + Humidity + ", Feels=" + Feels + ", WindKph=" + WindKph + ", WindDir=" + WindDir + ", WindMaxKph=" + WindMaxKph + ", WindChill=" + WindChill + ", PressurePa=" + PressurePa + ", VisibilityKm=" + VisibilityKm + ", Uv=" + Uv + ", RainToday=" + RainToday + ", icon=" + icon + "\n" + ", forecast=" + Arrays.toString(forecast) + '}';
-    }
-
-    
-    
+    } 
 }

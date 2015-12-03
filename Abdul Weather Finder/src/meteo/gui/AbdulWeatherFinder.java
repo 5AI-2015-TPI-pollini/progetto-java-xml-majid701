@@ -10,6 +10,7 @@ import javafx.stage.Stage;
  * @author Abdul Majid
  */
 public class AbdulWeatherFinder extends Application {
+    public static Stage stage;
     
     /**
      * @param args the command line arguments
@@ -20,10 +21,11 @@ public class AbdulWeatherFinder extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        this.stage = stage;
         Parent root = FXMLLoader.load(getClass().getResource("/meteo/res/application.fxml"));
-
-        Scene scene = new Scene(root);
         
+        Scene scene = new Scene(root);
+        stage.setTitle("Abdul Weather Finder");
         stage.setScene(scene);
         stage.show();  
     }

@@ -12,7 +12,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 /**
- *
+ * Creates an address from an xml file downloaded from the google geocoding service
  * @author Abdul Majid <majid70111@gmail.com>
  */
 public class Geocode {

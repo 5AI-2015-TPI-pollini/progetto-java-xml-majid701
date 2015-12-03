@@ -1,13 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meteo.gui.FXMLDocumentController">
-    <children>
-        <Button fx:id="button" layoutX="126" layoutY="90" onAction="#handleButtonAction" text="Click Me!" />
-    </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meteo.gui.FXMLDocumentController">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="txtSearch" layoutX="173.0" layoutY="20.0" prefHeight="25.0" prefWidth="228.0" promptText="Type a location.." />
+            <Button fx:id="btnSearch" disable="true" layoutX="423.0" layoutY="20.0" mnemonicParsing="false" onAction="#btnSearchClicked" text="Button" />
+            <Label layoutX="26.0" layoutY="20.0" text="Search" textFill="#9f9f9f">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="26.0" layoutY="73.0" text="Weather" textFill="#9f9f9f">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
+            <Separator layoutY="61.0" prefHeight="0.0" prefWidth="600.0" />
+            <ProgressIndicator fx:id="loading" disable="true" layoutX="504.0" layoutY="10.0" progress="0.0" />
+            <Label fx:id="lblFormattedAddress" layoutX="26.0" layoutY="111.0">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblObservationTime" layoutX="26.0" layoutY="141.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imgIcon" fitHeight="80.0" fitWidth="100.0" layoutX="30.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="lblHuman" layoutX="30.0" layoutY="249.0">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTemperatureC" layoutX="30.0" layoutY="274.0" textFill="#32afb1">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblFeelsLike" layoutX="30.0" layoutY="333.0" text="Feels like:" visible="false" />
+            <Label fx:id="lblFeelsTemp" layoutX="102.0" layoutY="333.0" textFill="#32afb1" />
+         </children>
+      </AnchorPane>
+   </center>
+   <top>
+      <MenuBar BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#openProxySettings" text="Proxy" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+</BorderPane>
