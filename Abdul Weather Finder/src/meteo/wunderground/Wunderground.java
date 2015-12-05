@@ -181,9 +181,15 @@ public class Wunderground {
                 Logger.getLogger(Wunderground.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        //Download current weather icon
         IconDownloader icn = new IconDownloader();
         String iconUrl = (ICON_URL + weather.getIcon() + ".gif");
         weather.setIconImage(icn.download(iconUrl));
+        //Download forecast icons
+        for(Forecast i : forecast){
+            iconUrl = (ICON_URL + i.getIconName() + ".gif");
+            i.setIconImage(icn.download(iconUrl));
+        }
         weather.setForecast(forecast);
         weatherState = weather;
     }

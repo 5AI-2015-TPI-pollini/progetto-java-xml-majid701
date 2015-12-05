@@ -152,7 +152,10 @@ public class WeatherState {
     public Image getIconImage() {
         return iconImage;
     }
-    
+
+    public Forecast[] getForecast() {
+        return forecast;
+    }
     
     @Override
     public String toString() {

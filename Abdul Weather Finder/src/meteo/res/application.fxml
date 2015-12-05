@@ -8,56 +8,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meteo.gui.FXMLDocumentController">
-   <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <TextField fx:id="txtSearch" layoutX="173.0" layoutY="20.0" prefHeight="25.0" prefWidth="228.0" promptText="Type a location.." />
-            <Button fx:id="btnSearch" disable="true" layoutX="423.0" layoutY="20.0" mnemonicParsing="false" onAction="#btnSearchClicked" text="Button" />
-            <Label layoutX="26.0" layoutY="20.0" text="Search" textFill="#9f9f9f">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-            <Label layoutX="26.0" layoutY="73.0" text="Weather" textFill="#9f9f9f">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-            <Separator layoutY="61.0" prefHeight="0.0" prefWidth="600.0" />
-            <ProgressIndicator fx:id="loading" disable="true" layoutX="504.0" layoutY="10.0" progress="0.0" />
-            <Label fx:id="lblFormattedAddress" layoutX="26.0" layoutY="111.0">
-               <font>
-                  <Font name="System Bold" size="25.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblObservationTime" layoutX="26.0" layoutY="141.0">
-               <font>
-                  <Font size="12.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="imgIcon" fitHeight="80.0" fitWidth="100.0" layoutX="30.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" />
-            <Label fx:id="lblHuman" layoutX="30.0" layoutY="249.0">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblTemperatureC" layoutX="30.0" layoutY="274.0" textFill="#32afb1">
-               <font>
-                  <Font size="50.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblFeelsLike" layoutX="30.0" layoutY="333.0" text="Feels like:" visible="false" />
-            <Label fx:id="lblFeelsTemp" layoutX="102.0" layoutY="333.0" textFill="#32afb1" />
-         </children>
-      </AnchorPane>
-   </center>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="meteo.gui.FXMLDocumentController">
    <top>
       <MenuBar BorderPane.alignment="CENTER">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem mnemonicParsing="false" onAction="#closeWindow" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
@@ -73,4 +30,422 @@
         </menus>
       </MenuBar>
    </top>
+   <left>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <TextField fx:id="txtSearch" layoutX="144.0" layoutY="21.0" prefHeight="25.0" prefWidth="324.0" promptText="Type a location.." />
+            <Button fx:id="btnSearch" disable="true" layoutX="501.0" layoutY="21.0" mnemonicParsing="false" onAction="#btnSearchClicked" prefHeight="25.0" prefWidth="71.0" text="Search" />
+            <Label layoutX="26.0" layoutY="20.0" text="Search" textFill="#9f9f9f">
+               <font>
+                  <Font name="Un Dinaru" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="124.0" layoutY="73.0" text="Weather" textFill="#9f9f9f">
+               <font>
+                  <Font name="Un Dinaru" size="22.0" />
+               </font>
+            </Label>
+            <Separator layoutY="61.0" prefHeight="5.0" prefWidth="700.0" style="-fx-background-color: #5E5E5E;" />
+            <ProgressIndicator fx:id="loading" disable="true" layoutX="605.0" layoutY="11.0" progress="0.0" />
+            <Label fx:id="lblFormattedAddress" layoutX="26.0" layoutY="111.0">
+               <font>
+                  <Font name="Un Dinaru Bold" size="25.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblObservationTime" layoutX="26.0" layoutY="141.0">
+               <font>
+                  <Font size="12.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="imgIcon" fitHeight="60.0" fitWidth="60.0" layoutX="30.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="lblHuman" layoutX="30.0" layoutY="223.0">
+               <font>
+                  <Font name="Un Dinaru Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblTemperatureC" layoutX="30.0" layoutY="248.0" textFill="#169ea8">
+               <font>
+                  <Font name="Un Dinaru" size="50.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblFeelsLike" layoutX="30.0" layoutY="307.0" text="Feels like:" visible="false">
+               <font>
+                  <Font name="Un Dinaru" size="13.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblFeelsTemp" layoutX="98.0" layoutY="307.0" textFill="#d73f3f">
+               <font>
+                  <Font name="Un Dinaru" size="15.0" />
+               </font>
+            </Label>
+            <GridPane fx:id="weatherInfos" layoutX="189.0" layoutY="162.0" prefHeight="164.0" prefWidth="165.0" visible="false">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="112.0" minWidth="10.0" prefWidth="110.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="77.0" minWidth="10.0" prefWidth="55.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label layoutX="10.0" layoutY="10.0" text="Pressure">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="Visibility Km" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="Wind KPH" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="Wind Max KPH" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="Wind Chill" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="Wind direction" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="UV" GridPane.rowIndex="6">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label text="Rain preview" GridPane.rowIndex="7">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblPressure" text="Label" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblVisibility" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblWindKph" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblWindMaxKph" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblWindChill" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblWindDirection" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblUv" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblRainPreview" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </GridPane>
+            <Separator layoutX="159.0" layoutY="166.0" orientation="VERTICAL" prefHeight="157.0" prefWidth="5.0" style="-fx-background-color: #5E5E5E;" />
+            <Separator layoutX="351.0" layoutY="66.0" orientation="VERTICAL" prefHeight="266.0" prefWidth="6.0" style="-fx-background-color: #5E5E5E;" />
+            <Label layoutX="498.0" layoutY="73.0" text="Forecast" textFill="#9f9f9f">
+               <font>
+                  <Font name="Un Dinaru" size="22.0" />
+               </font>
+            </Label>
+            <BorderPane fx:id="forecast1" layoutX="384.0" layoutY="114.0" prefHeight="79.0" prefWidth="139.0" visible="false">
+               <top>
+                  <Label fx:id="lblForecastDay1" text="Wednesday 12/06" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+               </top>
+               <center>
+                  <ImageView fx:id="imgForecast1" fitHeight="49.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="@../../../../../../../../opt/JavaFXSceneBuilder2.0/app/fxml-48.png" />
+                     </image>
+                  </ImageView>
+               </center>
+               <bottom>
+                  <Label fx:id="lblForecastHuman1" text="Partly Cloudy" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </bottom>
+               <left>
+                  <GridPane prefHeight="49.0" prefWidth="31.0" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label fx:id="lblForecastMax1" text="5°C" textFill="#d5202a">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblForecastMin1" text="10°C" textFill="#1460b4" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </GridPane>
+               </left>
+               <right>
+                  <GridPane prefHeight="78.0" prefWidth="50.0" BorderPane.alignment="CENTER">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Label text="Rain">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblForecastRain1" text="0.0mm" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+               </right>
+            </BorderPane>
+            <BorderPane fx:id="forecast2" layoutX="547.0" layoutY="114.0" prefHeight="79.0" prefWidth="139.0" visible="false">
+               <bottom>
+                  <Label fx:id="lblForecastHuman2" text="Partly Cloudy" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </bottom>
+               <center>
+                  <ImageView fx:id="imgForecast2" fitHeight="49.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="@../../../../../../../../opt/JavaFXSceneBuilder2.0/app/fxml-48.png" />
+                     </image>
+                  </ImageView>
+               </center>
+               <left>
+                  <GridPane prefHeight="49.0" prefWidth="31.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label fx:id="lblForecastMax2" text="5°C" textFill="#d5202a">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblForecastMin2" text="10°C" textFill="#1460b4" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </left>
+               <right>
+                  <GridPane prefHeight="78.0" prefWidth="50.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Rain">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblForecastRain2" text="0.0mm" GridPane.rowIndex="1" />
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </right>
+               <top>
+                  <Label fx:id="lblForecastDay2" text="Wednesday 12/06" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+               </top>
+            </BorderPane>
+            <BorderPane fx:id="forecast3" layoutX="384.0" layoutY="228.0" prefHeight="79.0" prefWidth="139.0" visible="false">
+               <bottom>
+                  <Label fx:id="lblForecastHuman3" text="Partly Cloudy" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </bottom>
+               <center>
+                  <ImageView fx:id="imgForecast3" fitHeight="49.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="@../../../../../../../../opt/JavaFXSceneBuilder2.0/app/fxml-48.png" />
+                     </image>
+                  </ImageView>
+               </center>
+               <left>
+                  <GridPane prefHeight="49.0" prefWidth="31.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label fx:id="lblForecastMax3" text="5°C" textFill="#d5202a">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblForecastMin3" text="10°C" textFill="#1460b4" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </left>
+               <right>
+                  <GridPane prefHeight="78.0" prefWidth="50.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Rain">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblForecastRain3" text="0.0mm" GridPane.rowIndex="1" />
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </right>
+               <top>
+                  <Label fx:id="lblForecastDay3" text="Wednesday 12/06" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+               </top>
+            </BorderPane>
+            <BorderPane fx:id="forecast4" layoutX="547.0" layoutY="228.0" prefHeight="79.0" prefWidth="139.0" visible="false">
+               <bottom>
+                  <Label fx:id="lblForecastHuman4" text="Partly Cloudy" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Un Dinaru Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </bottom>
+               <center>
+                  <ImageView fx:id="imgForecast4" fitHeight="49.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                     <image>
+                        <Image url="@../../../../../../../../opt/JavaFXSceneBuilder2.0/app/fxml-48.png" />
+                     </image>
+                  </ImageView>
+               </center>
+               <left>
+                  <GridPane prefHeight="49.0" prefWidth="31.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label fx:id="lblForecastMax4" text="5°C" textFill="#d5202a">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblForecastMin4" text="10°C" textFill="#1460b4" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </left>
+               <right>
+                  <GridPane prefHeight="78.0" prefWidth="50.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label text="Rain">
+                           <font>
+                              <Font name="Un Dinaru" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblForecastRain4" text="0.0mm" GridPane.rowIndex="1" />
+                     </children>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </right>
+               <top>
+                  <Label fx:id="lblForecastDay4" text="Wednesday 12/06" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Un Dinaru" size="13.0" />
+                     </font>
+                  </Label>
+               </top>
+            </BorderPane>
+            <Separator layoutX="534.0" layoutY="109.0" orientation="VERTICAL" prefHeight="200.0" prefWidth="0.0" />
+            <Separator layoutX="385.0" layoutY="208.0" prefHeight="0.0" prefWidth="298.0" />
+         </children>
+      </AnchorPane>
+   </left>
 </BorderPane>
